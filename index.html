@@ -2,21 +2,44 @@
 <html lang="en">
 
 <head>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="favicon.png" type="image/png">
+  <title>Video Autoplay with Unmute</title>
   <style>
-    /* Styling for the unmute button */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Full-screen video */
+    .back-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    /* Unmute/Mute button styling */
     .unmute-button {
       position: absolute;
-      top: 10px;
-      left: 10px;
+      top: 20px;
+      left: 20px;
       background-color: rgba(0, 0, 0, 0.7);
       color: white;
       border: none;
       border-radius: 5px;
-      padding: 10px 15px;
+      padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
       z-index: 10;
@@ -26,31 +49,41 @@
       background-color: rgba(255, 255, 255, 0.8);
       color: black;
     }
+
+    /* Content */
+    .content {
+      position: relative;
+      color: white;
+      text-align: center;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .content h1 {
+      font-size: 50px;
+    }
+
+    .content a {
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      border: 2px solid white;
+      padding: 10px 20px;
+      border-radius: 10px;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <!-- Background Video -->
-    <video class="back-video" autoplay muted loop playsinline id="backgroundVideo">
+    <!-- Background video -->
+    <video class="back-video" autoplay muted loop id="backgroundVideo">
       <source src="01.mkv" type="video/mkv">
       Your browser does not support the video tag.
     </video>
 
-    <!-- Unmute Button -->
+    <!-- Unmute/Mute button -->
     <button class="unmute-button" id="unmuteButton">Unmute</button>
-
-    <!-- Navigation -->
-    <nav>
-      <div class="logo">
-        <img src="logo.png" alt="Logo" class="log">
-      </div>
-      <ul>
-        <li><a href="#">Welcome</a></li>
-        <li><a href="#">To</a></li>
-        <li><a href="#">My Red Card Web</a></li>
-      </ul>
-    </nav>
 
     <!-- Content -->
     <div class="content">
@@ -59,22 +92,24 @@
     </div>
   </div>
 
-  <!-- JavaScript for Unmute Button -->
   <script>
-    // Get references to the video and the unmute button
+    // Get video and button elements
     const video = document.getElementById("backgroundVideo");
     const unmuteButton = document.getElementById("unmuteButton");
 
-    // Add a click event to the unmute button
+    // Button functionality to toggle mute/unmute
     unmuteButton.addEventListener("click", () => {
       if (video.muted) {
         video.muted = false; // Unmute the video
-        unmuteButton.textContent = "Mute"; // Change button text to "Mute"
+        unmuteButton.textContent = "Mute"; // Change button text
       } else {
         video.muted = true; // Mute the video
-        unmuteButton.textContent = "Unmute"; // Change button text to "Unmute"
+        unmuteButton.textContent = "Unmute"; // Change button text
       }
     });
+
+    // Ensure autoplay works properly even if muted (browser policy)
+    video.play();
   </script>
 </body>
 
