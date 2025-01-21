@@ -1,18 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Welcome</title>
   <link rel="stylesheet" href="style.css">
   <link rel="icon" href="favicon.png" type="image/png">
+  <style>
+    /* Styling for the unmute button */
+    .unmute-button {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .unmute-button:hover {
+      background-color: rgba(255, 255, 255, 0.8);
+      color: black;
+    }
+  </style>
 </head>
+
 <body>
   <div class="container">
-    <!-- Video Element -->
-    <video id="background-video" class="back-video" autoplay loop playsinline>
+    <!-- Background Video -->
+    <video class="back-video" autoplay muted loop playsinline id="backgroundVideo">
       <source src="01.mp4" type="video/mp4">
       Your browser does not support the video tag.
     </video>
+
+    <!-- Unmute Button -->
+    <button class="unmute-button" id="unmuteButton">Unmute</button>
 
     <!-- Navigation -->
     <nav>
@@ -33,28 +59,23 @@
     </div>
   </div>
 
-  <!-- JavaScript -->
+  <!-- JavaScript for Unmute Button -->
   <script>
-    const video = document.getElementById("background-video");
+    // Get references to the video and the unmute button
+    const video = document.getElementById("backgroundVideo");
+    const unmuteButton = document.getElementById("unmuteButton");
 
-    // Ensure video plays with sound
-    const enableVideo = () => {
-      video.muted = false; // Unmute the video
-      video.autoplay = true; // Enable autoplay
-      video.loop = true; // Enable looping
-      video.play().catch(err => {
-        console.log("Autoplay with sound failed. Waiting for user interaction.");
-        alert("Click anywhere to start video with sound.");
-
-        // Wait for a user gesture to start playback
-        document.body.addEventListener("click", () => {
-          video.play();
-        }, { once: true }); // Listen once
-      });
-    };
-
-    // Attempt to start video on page load
-    enableVideo();
+    // Add a click event to the unmute button
+    unmuteButton.addEventListener("click", () => {
+      if (video.muted) {
+        video.muted = false; // Unmute the video
+        unmuteButton.textContent = "Mute"; // Change button text to "Mute"
+      } else {
+        video.muted = true; // Mute the video
+        unmuteButton.textContent = "Unmute"; // Change button text to "Unmute"
+      }
+    });
   </script>
 </body>
+
 </html>
